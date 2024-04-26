@@ -22,10 +22,10 @@ public class Location {
     @Column(name = "name")
     private String name;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userid", nullable = false)
-    private User userId;
-    @Column(name = "latitude")
-    private BigDecimal Latitude;
-    @Column(name = "longitude")
-    private BigDecimal Longitude;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+    @Column(name = "latitude", nullable = false)
+    private BigDecimal latitude;
+    @Column(name = "longitude", nullable = false)
+    private BigDecimal longitude;
 }
