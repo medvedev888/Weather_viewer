@@ -10,7 +10,7 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 public class ThymeleafUtils {
 
-    private WebContext getWebContext(HttpServletRequest request, HttpServletResponse response, ServletContext servletContext){
+    public static WebContext getWebContext(HttpServletRequest request, HttpServletResponse response, ServletContext servletContext){
         JakartaServletWebApplication application =
                 JakartaServletWebApplication.buildApplication(servletContext);
 

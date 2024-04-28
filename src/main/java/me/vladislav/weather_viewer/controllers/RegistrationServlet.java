@@ -20,8 +20,6 @@ public class RegistrationServlet extends HttpServlet {
         TemplateEngine templateEngine = (TemplateEngine)(getServletContext().getAttribute("templateEngine"));
 
         templateEngine.process("registration.html", webContext, resp.getWriter());
-
-        req.getRequestDispatcher("registration.html").forward(req, resp);
     }
 
 
