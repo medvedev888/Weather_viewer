@@ -8,12 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <header class="d-flex justify-content-center py-3">
-            <ul class="nav nav-pills">
-                <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Search</a></li>
-            </ul>
-        </header>
+        <div th:replace="fragments/header-fragments.html :: header(title='Weather viewer', showSearchField=${false})"></div>
     </div>
     <div class="container d-flex justify-content-center align-content-center vh-100 mt-5">
         <div class="row justify-content-center">
