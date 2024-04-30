@@ -24,4 +24,9 @@ public class Session {
     private User user;
     @Column(name = "expires_at", nullable = false)
     private LocalDateTime expiresAt;
+
+    public Session(User user, LocalDateTime expiresAt) {
+        this.user = user;
+        this.expiresAt = expiresAt;
+    }
 }
