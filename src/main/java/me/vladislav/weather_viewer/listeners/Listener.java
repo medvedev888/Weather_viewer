@@ -4,6 +4,7 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
+import me.vladislav.weather_viewer.utils.ThymeleafUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.WebApplicationTemplateResolver;
 import org.thymeleaf.web.servlet.JakartaServletWebApplication;
@@ -13,16 +14,6 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 public class Listener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        ServletContext servletContext = sce.getServletContext();
-        WebApplicationTemplateResolver webApplicationTemplateResolver = new WebApplicationTemplateResolver(JakartaServletWebApplication.buildApplication(servletContext));
-        webApplicationTemplateResolver.setTemplateMode("HTML5");
-        webApplicationTemplateResolver.setPrefix("/WEB-INF/templates/");
-        webApplicationTemplateResolver.setSuffix(".html");
-        webApplicationTemplateResolver.setCharacterEncoding("UTF-8");
-
-        TemplateEngine templateEngine = new TemplateEngine();
-        templateEngine.setTemplateResolver(webApplicationTemplateResolver);
-
-        servletContext.setAttribute("templateEngine", templateEngine);
+        ThymeleafUtils.configureTemplateEngine(sce.getServletContext());
     }
 }
