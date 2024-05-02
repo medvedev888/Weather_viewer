@@ -4,11 +4,11 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
+import me.vladislav.weather_viewer.dao.LocationDAO;
+import me.vladislav.weather_viewer.dao.SessionDAO;
+import me.vladislav.weather_viewer.dao.UserDAO;
 import me.vladislav.weather_viewer.utils.HibernateUtils;
 import me.vladislav.weather_viewer.utils.ThymeleafUtils;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.templateresolver.WebApplicationTemplateResolver;
-import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 
 @WebListener
@@ -18,5 +18,13 @@ public class Listener implements ServletContextListener {
         ServletContext context = sce.getServletContext();
         ThymeleafUtils.configureTemplateEngine(context);
         HibernateUtils.setConfiguration();
+
+        UserDAO userDAO = new UserDAO();
+        LocationDAO locationDAO = new LocationDAO();
+        SessionDAO sessionDAO = new SessionDAO();
+
+        context.setAttribute("userDAO", userDAO);
+        context.setAttribute("locationDAO", locationDAO);
+        context.setAttribute("sessionDAO", sessionDAO);
     }
 }
