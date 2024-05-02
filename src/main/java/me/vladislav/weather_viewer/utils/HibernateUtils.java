@@ -10,20 +10,22 @@ public class HibernateUtils {
 
     public static synchronized void setConfiguration(){
         if(configuration == null){
+
             configuration = new Configuration();
-            configuration.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/weather_viewer");
-            configuration.setProperty("hibernate.connection.username", "vladislavmedvedev");
-            configuration.setProperty("hibernate.connection.password", "123");
+            configuration.configure("hibernate.cfg.xml");
+
 //            configuration.setProperty("hibernate.connection.url", System.getenv("JAKARTA_PERSISTENCE_JDBC_URL"));
 //            configuration.setProperty("hibernate.connection.username", System.getenv("JAKARTA_PERSISTENCE_JDBC_USERNAME"));
 //            configuration.setProperty("hibernate.connection.password", System.getenv("JAKARTA_PERSISTENCE_JDBC_PASSWORD"));
+
+            configuration.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/weather_viewer");
+            configuration.setProperty("hibernate.connection.username", "vladislavmedvedev");
+            configuration.setProperty("hibernate.connection.password", "123");
+
         }
     }
 
     public static synchronized Configuration getConfiguration(){
-        if(configuration == null){
-            setConfiguration();
-        }
         return configuration;
     }
 
