@@ -11,11 +11,11 @@ import java.util.Optional;
 
 public class UserDAO implements DataAccessObject<User> {
 
-    public Optional<User> getByEmail(String email) {
+    public Optional<User> getByLogin(String login) {
         try (Session session = HibernateUtils.getSession()) {
             session.beginTransaction();
             Query<User> query = session.createQuery("SELECT u FROM User u WHERE u.login=:login", User.class);
-            query.setParameter("login", email);
+            query.setParameter("login", login);
             User user = query.uniqueResult();
             session.getTransaction().commit();
             return Optional.ofNullable(user);
