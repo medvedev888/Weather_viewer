@@ -3,7 +3,7 @@ package me.vladislav.weather_viewer.utils;
 public class ValidationUtils {
 
     public static boolean isValidLogin(String login) {
-        String regex = "^[a-zA-Z0-9\\-_.$%&*+!?()\\[\\]{}=:/;,#'\\\"`\\\\]*$";
+        String regex = "^[a-zA-Z0-9\\-_.$@%&*+!?()\\[\\]{}=:/;,#'\\\"`\\\\]*$";
 
         if (login == null || login.isEmpty()) {
             return false;
@@ -15,7 +15,7 @@ public class ValidationUtils {
     }
 
     public static boolean isValidPassword(String password) {
-        String regex = "^[a-zA-Z0-9\\-_.$%&*+!?()\\[\\]{}=:/;,#'\\\"`\\\\]*$";
+        String regex = "^[a-zA-Z0-9\\-_.$@%&*+!?()\\[\\]{}=:/;,#'\\\"`\\\\]*$";
 
         if (password == null || password.isEmpty()) {
             return false;
