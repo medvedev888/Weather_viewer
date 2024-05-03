@@ -6,7 +6,6 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +27,7 @@ import java.time.LocalDateTime;
 
 @Slf4j
 @WebServlet(name = "RegistrationServlet", value = "/registration")
-public class RegistrationServlet extends HttpServlet {
+public class RegistrationServlet extends BaseServlet {
     private UserDAO userDAO;
     private SessionDAO sessionDAO;
 
@@ -45,7 +44,9 @@ public class RegistrationServlet extends HttpServlet {
         WebContext webContext = ThymeleafUtils.getWebContext(req, resp, getServletContext());
 
         TemplateEngine templateEngine = (TemplateEngine) (getServletContext().getAttribute("templateEngine"));
-        log.info("");
+
+        settingSessionAttributes(req.getSession(), webContext);
+
         templateEngine.process("registration.html", webContext, resp.getWriter());
     }
 

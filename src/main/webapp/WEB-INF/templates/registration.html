@@ -18,10 +18,16 @@
                 <div class="mb-3">
                     <label for="login" class="form-label">Email address</label>
                     <input type="text" class="form-control" id="login" name="login" placeholder="Enter your login (must be between 3 and 50 characters long.)" required>
+                    <div th:if="${errorMessageForNotValidLogin}">
+                        <p th:text="${errorMessageForNotValidLogin}" class="alert alert-danger p-2" role="alert"></p>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password (must be between 8 and 64 characters long." required>
+                    <div th:if="${errorMessageForNotValidPassword}">
+                        <p th:text="${errorMessageForNotValidPassword}" class="alert alert-danger p-2" role="alert"></p>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary">Submit</button>
