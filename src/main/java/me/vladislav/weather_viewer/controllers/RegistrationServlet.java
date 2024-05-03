@@ -9,6 +9,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import me.vladislav.weather_viewer.dao.SessionDAO;
 import me.vladislav.weather_viewer.dao.UserDAO;
 import me.vladislav.weather_viewer.exceptions.LoginIsNotValidException;
@@ -24,6 +25,8 @@ import org.thymeleaf.context.WebContext;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+
+@Slf4j
 @WebServlet(name = "RegistrationServlet", value = "/registration")
 public class RegistrationServlet extends HttpServlet {
     private UserDAO userDAO;
@@ -42,7 +45,7 @@ public class RegistrationServlet extends HttpServlet {
         WebContext webContext = ThymeleafUtils.getWebContext(req, resp, getServletContext());
 
         TemplateEngine templateEngine = (TemplateEngine) (getServletContext().getAttribute("templateEngine"));
-
+        log.info("");
         templateEngine.process("registration.html", webContext, resp.getWriter());
     }
 

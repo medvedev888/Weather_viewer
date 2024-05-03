@@ -1,8 +1,12 @@
 package me.vladislav.weather_viewer.utils;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class ValidationUtils {
 
     public static boolean isValidLogin(String login) {
+        log.info("Validating login");
         String regex = "^[a-zA-Z0-9\\-_.$@%&*+!?()\\[\\]{}=:/;,#'\\\"`\\\\]*$";
 
         if (login == null || login.isEmpty()) {
@@ -15,6 +19,7 @@ public class ValidationUtils {
     }
 
     public static boolean isValidPassword(String password) {
+        log.info("Validating password");
         String regex = "^[a-zA-Z0-9\\-_.$@%&*+!?()\\[\\]{}=:/;,#'\\\"`\\\\]*$";
 
         if (password == null || password.isEmpty()) {

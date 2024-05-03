@@ -1,14 +1,17 @@
 package me.vladislav.weather_viewer.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+@Slf4j
 public class HibernateUtils {
     private static Configuration configuration;
     private static SessionFactory sessionFactory;
 
     public static synchronized void setConfiguration(){
+        log.info("Setting up Hibernate configuration");
         if(configuration == null){
 
             configuration = new Configuration();
