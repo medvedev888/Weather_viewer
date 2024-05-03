@@ -80,6 +80,13 @@
             <version>42.7.3</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.password4j/password4j -->
+        <dependency>
+            <groupId>com.password4j</groupId>
+            <artifactId>password4j</artifactId>
+            <version>1.8.2</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
