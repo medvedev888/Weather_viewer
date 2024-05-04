@@ -21,7 +21,7 @@ public class BaseServlet extends HttpServlet {
         } catch (DataAccessException e) {
             log.warn(e.getMessage());
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database interaction error (" + e.getMessage() + ")");
-        } catch (LoginIsNotValidException | UserWithThisLoginDoesNotExistException e) {
+        } catch (LoginIsNotValidException | UserAlreadyExistsException | UserWithThisLoginDoesNotExistException e) {
             log.warn(e.getMessage());
             req.getSession().setAttribute("errorMessageForLogin", e.getMessage());
             resp.sendRedirect(req.getRequestURI());
