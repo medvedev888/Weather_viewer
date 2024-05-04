@@ -6,9 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import me.vladislav.weather_viewer.exceptions.DataAccessException;
-import me.vladislav.weather_viewer.exceptions.LoginIsNotValidException;
-import me.vladislav.weather_viewer.exceptions.PasswordIsNotValidException;
+import me.vladislav.weather_viewer.exceptions.*;
 import org.thymeleaf.context.WebContext;
 
 import java.io.IOException;
@@ -23,30 +21,30 @@ public class BaseServlet extends HttpServlet {
         } catch (DataAccessException e) {
             log.warn(e.getMessage());
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database interaction error (" + e.getMessage() + ")");
-        } catch (LoginIsNotValidException e) {
+        } catch (LoginIsNotValidException | UserWithThisLoginDoesNotExistException e) {
             log.warn(e.getMessage());
-            req.getSession().setAttribute("errorMessageForNotValidLogin", e.getMessage());
+            req.getSession().setAttribute("errorMessageForLogin", e.getMessage());
             resp.sendRedirect(req.getRequestURI());
-        } catch (PasswordIsNotValidException e) {
+        } catch (PasswordIsNotValidException | IncorrectPasswordException e) {
             log.warn(e.getMessage());
-            req.getSession().setAttribute("errorMessageForNotValidPassword", e.getMessage());
+            req.getSession().setAttribute("errorMessageForPassword", e.getMessage());
             resp.sendRedirect(req.getRequestURI());
         }
     }
 
     protected void settingSessionAttributes(HttpSession session, WebContext webContext) {
         if (session != null) {
-            String errorMessageForNotValidLogin = (String) session.getAttribute("errorMessageForNotValidLogin");
-            String errorMessageForNotValidPassword = (String) session.getAttribute("errorMessageForNotValidPassword");
+            String errorMessageForLogin = (String) session.getAttribute("errorMessageForLogin");
+            String errorMessageForPassword = (String) session.getAttribute("errorMessageForPassword");
 
-            session.removeAttribute("errorMessageForNotValidLogin");
-            session.removeAttribute("errorMessageForNotValidPassword");
+            session.removeAttribute("errorMessageForLogin");
+            session.removeAttribute("errorMessageForPassword");
 
-            if (errorMessageForNotValidLogin != null) {
-                webContext.setVariable("errorMessageForNotValidLogin", errorMessageForNotValidLogin);
+            if (errorMessageForLogin != null) {
+                webContext.setVariable("errorMessageForLogin", errorMessageForLogin);
             }
-            if (errorMessageForNotValidPassword != null) {
-                webContext.setVariable("errorMessageForNotValidPassword", errorMessageForNotValidPassword);
+            if (errorMessageForPassword != null) {
+                webContext.setVariable("errorMessageForPassword", errorMessageForPassword);
             }
         }
     }
