@@ -10,7 +10,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import me.vladislav.weather_viewer.dao.SessionDAO;
 import me.vladislav.weather_viewer.dao.UserDAO;
-import me.vladislav.weather_viewer.exceptions.*;
+import me.vladislav.weather_viewer.exceptions.IncorrectPasswordException;
+import me.vladislav.weather_viewer.exceptions.LoginIsNotValidException;
+import me.vladislav.weather_viewer.exceptions.PasswordIsNotValidException;
+import me.vladislav.weather_viewer.exceptions.UserWithThisLoginDoesNotExistException;
 import me.vladislav.weather_viewer.models.Session;
 import me.vladislav.weather_viewer.models.User;
 import me.vladislav.weather_viewer.utils.ThymeleafUtils;
@@ -47,7 +50,7 @@ public class AuthorizationServlet extends AuthBaseServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String login = req.getParameter("login").strip();
         String password = req.getParameter("password").strip();
 
@@ -57,16 +60,18 @@ public class AuthorizationServlet extends AuthBaseServlet {
                 Hash hashOfPassword = Password.hash(password).withBcrypt();
                 Optional<User> userOptional = userDAO.getByLogin(login);
 
-                if(userOptional.isPresent()){
+                if (userOptional.isPresent()) {
                     User user = userOptional.get();
-                    if(user.getPassword().equals(hashOfPassword.getResult())){
+
+                    // - Ошибка проверка паролей!!!
+                    if ((Password.hash(user.getPassword()).withBcrypt().getResult()).equals(hashOfPassword.getResult())) {
                         Session session = new Session(user, LocalDateTime.now().plusHours(24));
                         sessionDAO.save(session);
 
                         Cookie cookie = new Cookie("sessionId", Integer.toString(session.getId()));
                         resp.addCookie(cookie);
 
-                        // редирект на home page
+                        resp.sendRedirect("auth/");
                     } else {
                         throw new IncorrectPasswordException("Incorrect password");
                     }

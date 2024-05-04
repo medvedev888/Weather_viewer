@@ -51,7 +51,7 @@ public class RegistrationServlet extends AuthBaseServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String login = req.getParameter("login").strip();
         String password = req.getParameter("password").strip();
 
@@ -68,8 +68,7 @@ public class RegistrationServlet extends AuthBaseServlet {
 
                     Cookie cookie = new Cookie("sessionId", Integer.toString(session.getId()));
                     resp.addCookie(cookie);
-
-                    // редирект на home page
+                    resp.sendRedirect("auth/");
                 } else {
                     throw new UserAlreadyExistsException("The user with this login exists");
                 }
