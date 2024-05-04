@@ -1,4 +1,4 @@
-package me.vladislav.weather_viewer.controllers;
+package me.vladislav.weather_viewer.controllers.auth;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;

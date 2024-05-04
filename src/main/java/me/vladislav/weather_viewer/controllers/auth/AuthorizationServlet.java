@@ -1,4 +1,4 @@
-package me.vladislav.weather_viewer.controllers;
+package me.vladislav.weather_viewer.controllers.auth;
 
 import com.password4j.Hash;
 import com.password4j.Password;
@@ -43,7 +43,7 @@ public class AuthorizationServlet extends AuthBaseServlet {
 
         settingSessionAttributesForRenderingErrorMessage(req.getSession(), webContext);
 
-        templateEngine.process("authorization.html", webContext, resp.getWriter());
+        templateEngine.process("auth/authorization.html", webContext, resp.getWriter());
     }
 
     @Override
