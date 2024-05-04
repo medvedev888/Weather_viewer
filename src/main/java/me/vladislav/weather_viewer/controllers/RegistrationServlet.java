@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 
 @Slf4j
 @WebServlet(name = "RegistrationServlet", value = "/registration")
-public class RegistrationServlet extends BaseServlet {
+public class RegistrationServlet extends AuthBaseServlet {
     private UserDAO userDAO;
     private SessionDAO sessionDAO;
 
@@ -45,7 +45,7 @@ public class RegistrationServlet extends BaseServlet {
 
         TemplateEngine templateEngine = (TemplateEngine) (getServletContext().getAttribute("templateEngine"));
 
-        settingSessionAttributes(req.getSession(), webContext);
+        settingSessionAttributesForRenderingErrorMessage(req.getSession(), webContext);
 
         templateEngine.process("registration.html", webContext, resp.getWriter());
     }

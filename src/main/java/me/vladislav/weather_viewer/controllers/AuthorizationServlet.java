@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @WebServlet(name = "AuthorizationServlet", value = "/authorization")
-public class AuthorizationServlet extends BaseServlet {
+public class AuthorizationServlet extends AuthBaseServlet {
     private UserDAO userDAO;
     private SessionDAO sessionDAO;
 
@@ -41,7 +41,7 @@ public class AuthorizationServlet extends BaseServlet {
 
         TemplateEngine templateEngine = (TemplateEngine) (getServletContext().getAttribute("templateEngine"));
 
-        settingSessionAttributes(req.getSession(), webContext);
+        settingSessionAttributesForRenderingErrorMessage(req.getSession(), webContext);
 
         templateEngine.process("authorization.html", webContext, resp.getWriter());
     }

@@ -12,7 +12,7 @@ import org.thymeleaf.context.WebContext;
 import java.io.IOException;
 
 @Slf4j
-public class BaseServlet extends HttpServlet {
+public class AuthBaseServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,7 +32,7 @@ public class BaseServlet extends HttpServlet {
         }
     }
 
-    protected void settingSessionAttributes(HttpSession session, WebContext webContext) {
+    protected void settingSessionAttributesForRenderingErrorMessage(HttpSession session, WebContext webContext) {
         if (session != null) {
             String errorMessageForLogin = (String) session.getAttribute("errorMessageForLogin");
             String errorMessageForPassword = (String) session.getAttribute("errorMessageForPassword");
