@@ -1,6 +1,5 @@
 package me.vladislav.weather_viewer.controllers.auth;
 
-import com.password4j.Hash;
 import com.password4j.Password;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -57,14 +56,12 @@ public class AuthorizationServlet extends AuthBaseServlet {
         if (ValidationUtils.isValidLogin(login)) {
             if (ValidationUtils.isValidPassword(password)) {
 
-                Hash hashOfPassword = Password.hash(password).withBcrypt();
                 Optional<User> userOptional = userDAO.getByLogin(login);
 
                 if (userOptional.isPresent()) {
                     User user = userOptional.get();
 
-                    // - Ошибка проверка паролей!!!
-                    if ((Password.hash(user.getPassword()).withBcrypt().getResult()).equals(hashOfPassword.getResult())) {
+                    if (Password.check(password, user.getPassword()).withBcrypt()) {
                         Session session = new Session(user, LocalDateTime.now().plusHours(24));
                         sessionDAO.save(session);
 
