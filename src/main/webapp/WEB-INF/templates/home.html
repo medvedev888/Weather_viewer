@@ -9,7 +9,10 @@
 <body>
 <div class="container">
 <!--    Динамическая настройка которая будет происходить через работу бэкэнда с куками и сессиями-->
-    <div th:replace="~{fragments/header-fragment.html :: header(title='Weather viewer', showHomeLink=false, showSearchLink=true, showRegistrationLink=true, showAuthorizatoinLink=true, showSignOutLink=false)}"></div>
+    <div th:replace="~{fragments/header-fragment.html :: header(title=${title}, showHomeLink=${showHomeLink}, showSearchLink=${showSearchLink}, showRegistrationLink=${showRegistrationLink}, showAuthorizationLink=${showAuthorizationLink}, showSignOutLink=${showSignOutLink})}"></div>
+</div>
+<div class="container">
+    <div th:text="${userName}"></div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

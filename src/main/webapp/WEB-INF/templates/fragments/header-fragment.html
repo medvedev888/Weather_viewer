@@ -1,13 +1,13 @@
 <div th:fragment="header">
     <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
         <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-            <span class="fs-4" th:text="${title}"></span>
+            <span class="fs-4">Weather viewer</span>
         </div>
         <ul class="nav nav-pills">
             <li class="nav-item"><a th:href="@{/}" class="nav-link" aria-current="page" th:if="${showHomeLink}">Home</a></li>
             <li class="nav-item"><a href="#" class="nav-link" th:if="${showSearchLink}">Search</a></li>
             <li class="nav-item"><a th:href="@{/registration}" class="nav-link" th:if="${showRegistrationLink}">Registration</a></li>
-            <li class="nav-item"><a th:href="@{/authorization}" class="nav-link" th:if="${showAuthorizatoinLink}">Authorization</a></li>
+            <li class="nav-item"><a th:href="@{/authorization}" class="nav-link" th:if="${showAuthorizationLink}">Authorization</a></li>
             <li class="nav-item"><a href="#" class="nav-link" th:if="${showSignOutLink}">Sign out</a></li>
         </ul>
     </header>
