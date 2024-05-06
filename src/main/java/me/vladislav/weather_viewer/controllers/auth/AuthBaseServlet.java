@@ -23,10 +23,12 @@ public class AuthBaseServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database interaction error (" + e.getMessage() + ")");
         } catch (LoginIsNotValidException | UserAlreadyExistsException | UserWithThisLoginDoesNotExistException e) {
             log.warn(e.getMessage());
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             req.getSession().setAttribute("errorMessageForLogin", e.getMessage());
             resp.sendRedirect(req.getRequestURI());
         } catch (PasswordIsNotValidException | IncorrectPasswordException e) {
             log.warn(e.getMessage());
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             req.getSession().setAttribute("errorMessageForPassword", e.getMessage());
             resp.sendRedirect(req.getRequestURI());
         }
