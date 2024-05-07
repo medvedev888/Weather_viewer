@@ -32,6 +32,8 @@ public class BaseServlet extends HttpServlet {
             setTemplateVariablesForUnauthenticatedUsers(webContext);
 
             templateEngine.process("home.html", webContext, resp.getWriter());
+        } catch (Exception e){
+            log.warn(e.getMessage());
         }
     }
 

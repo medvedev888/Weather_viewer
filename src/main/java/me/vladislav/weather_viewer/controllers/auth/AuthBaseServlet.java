@@ -31,6 +31,8 @@ public class AuthBaseServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             req.getSession().setAttribute("errorMessageForPassword", e.getMessage());
             resp.sendRedirect(req.getRequestURI());
+        } catch (Exception e){
+            log.warn(e.getMessage());
         }
     }
 
