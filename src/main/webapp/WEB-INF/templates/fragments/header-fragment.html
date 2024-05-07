@@ -10,7 +10,11 @@
                 <li class="nav-item"><a th:href="@{/registration}" class="nav-link" th:if="${showRegistrationLink}">Registration</a></li>
                 <li class="nav-item"><a th:href="@{/authorization}" class="nav-link" th:if="${showAuthorizationLink}">Authorization</a></li>
                 <li class="nav-item"><span th:if="${userName}" th:text="${userName}" class="navbar-text d-block"></span></li>
-                <li class="nav-item"><a href="#" class="nav-link" th:if="${showSignOutLink}">Sign out</a></li>
+                <li class="nav-item">
+                    <form th:action="@{/sign-out}" method="post">
+                        <button class="nav-link" th:if="${showSignOutLink}">Sign out</button>
+                    </form>
+                </li>
             </ul>
         </div>
     </header>

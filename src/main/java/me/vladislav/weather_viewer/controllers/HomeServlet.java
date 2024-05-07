@@ -38,9 +38,10 @@ public class HomeServlet extends BaseServlet {
         Cookie[] cookies = req.getCookies();
         Cookie cookie = CookieUtils.findCookie(cookies, "sessionId").orElseThrow(() -> new CookieNotFoundException("Cookie not found"));
 
-        Session session = sessionDAO.getById(Integer.parseInt(cookie.getValue())).orElseThrow(() -> new SessionExpiredException("Session has expired"));
+        Session session = sessionDAO.getById(Integer.parseInt(cookie.getValue())).orElseThrow(() -> (new SessionExpiredException("Session has expired")));
 
         if (SessionUtils.isSessionExpired(session)) {
+            sessionDAO.delete(session);
             throw new SessionExpiredException("Session has expired");
         }
 
