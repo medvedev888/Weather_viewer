@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import me.vladislav.weather_viewer.exceptions.CookieNotFoundException;
+import me.vladislav.weather_viewer.exceptions.DataAccessException;
 import me.vladislav.weather_viewer.exceptions.SessionExpiredException;
 import me.vladislav.weather_viewer.utils.ThymeleafUtils;
 import org.thymeleaf.TemplateEngine;
@@ -19,6 +20,9 @@ public class BaseServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             super.service(req, resp);
+        } catch (DataAccessException e) {
+            log.warn(e.getMessage());
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database interaction error (" + e.getMessage() + ")");
         } catch (CookieNotFoundException | SessionExpiredException e) {
             log.warn(e.getMessage());
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
