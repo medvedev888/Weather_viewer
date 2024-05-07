@@ -48,12 +48,7 @@ public class HomeServlet extends BaseServlet {
 
         //вывод локаций для пользователя
 
-        // вынести в отдельную функцию (настройки для авторизованных пользователей)
-        webContext.setVariable("showHomeLink", false);
-        webContext.setVariable("showSearchLink", true);
-        webContext.setVariable("showRegistrationLink", false);
-        webContext.setVariable("showAuthorizationLink", false);
-        webContext.setVariable("showSignOutLink", true);
+        setTemplateVariablesForAuthenticatedUsers(webContext);
 
         //для проверки работы
         webContext.setVariable("userName", user.getLogin());

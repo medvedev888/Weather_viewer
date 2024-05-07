@@ -25,16 +25,27 @@ public class BaseServlet extends HttpServlet {
 
             WebContext webContext = ThymeleafUtils.getWebContext(req, resp, getServletContext());
             TemplateEngine templateEngine = (TemplateEngine) (getServletContext().getAttribute("templateEngine"));
-            webContext.clearVariables();
-            // вынести в отдельную функцию (настройки для неавторизованных пользователей)
-            webContext.setVariable("showHomeLink", false);
-            webContext.setVariable("showSearchLink", false);
-            webContext.setVariable("showRegistrationLink", true);
-            webContext.setVariable("showAuthorizationLink", true);
-            webContext.setVariable("showSignOutLink", false);
-
+            setTemplateVariablesForUnauthenticatedUsers(webContext);
 
             templateEngine.process("home.html", webContext, resp.getWriter());
         }
+    }
+
+    protected void setTemplateVariablesForUnauthenticatedUsers(WebContext webContext) {
+        webContext.clearVariables();
+        webContext.setVariable("showHomeLink", false);
+        webContext.setVariable("showSearchLink", false);
+        webContext.setVariable("showRegistrationLink", true);
+        webContext.setVariable("showAuthorizationLink", true);
+        webContext.setVariable("showSignOutLink", false);
+    }
+
+    protected void setTemplateVariablesForAuthenticatedUsers(WebContext webContext) {
+        webContext.clearVariables();
+        webContext.setVariable("showHomeLink", false);
+        webContext.setVariable("showSearchLink", true);
+        webContext.setVariable("showRegistrationLink", false);
+        webContext.setVariable("showAuthorizationLink", false);
+        webContext.setVariable("showSignOutLink", true);
     }
 }
