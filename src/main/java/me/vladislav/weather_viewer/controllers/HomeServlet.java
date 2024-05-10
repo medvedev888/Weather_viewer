@@ -51,7 +51,6 @@ public class HomeServlet extends BaseServlet {
 
         setTemplateVariablesForAuthenticatedUsers(webContext, false, true);
 
-        //для проверки работы
         webContext.setVariable("userName", user.getLogin());
 
         templateEngine.process("home.html", webContext, resp.getWriter());
