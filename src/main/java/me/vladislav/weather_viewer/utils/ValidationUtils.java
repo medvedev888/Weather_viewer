@@ -32,9 +32,9 @@ public class ValidationUtils {
         return false;
     }
 
-    public static boolean isValidLocationName(String locationName){
+    public static boolean isValidLocationName(String locationName) {
         log.info("Validating location name");
-
+        String regex = "^[a-zA-Zа-я-]+$";
         if (locationName == null || locationName.isEmpty()) {
             return false;
         }
