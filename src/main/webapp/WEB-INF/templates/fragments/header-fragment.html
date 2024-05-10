@@ -6,7 +6,7 @@
             </div>
             <ul class="nav nav-pills d-flex">
                 <li class="nav-item"><a th:href="@{/}" class="nav-link" aria-current="page" th:if="${showHomeLink}">Home</a></li>
-                <li class="nav nav-pills d-flex "><a href="#" class="nav-link" style="padding-right: 25rem" th:if="${showSearchLink}">Search</a></li>
+                <li class="nav nav-pills d-flex "><a th:href="@{/search}" class="nav-link" style="padding-right: 25rem" th:if="${showSearchLink}">Search</a></li>
                 <li class="nav-item"><a th:href="@{/registration}" class="nav-link" th:if="${showRegistrationLink}">Registration</a></li>
                 <li class="nav-item"><a th:href="@{/authorization}" class="nav-link" th:if="${showAuthorizationLink}">Authorization</a></li>
                 <li class="nav-item"><span th:if="${userName}" th:text="${userName}" class="navbar-text d-block"></span></li>

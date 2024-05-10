@@ -49,7 +49,7 @@ public class HomeServlet extends BaseServlet {
 
         //вывод локаций для пользователя
 
-        setTemplateVariablesForAuthenticatedUsers(webContext);
+        setTemplateVariablesForAuthenticatedUsers(webContext, false, true);
 
         //для проверки работы
         webContext.setVariable("userName", user.getLogin());
