@@ -11,13 +11,16 @@
     <div class="container">
         <div th:replace="~{fragments/header-fragment.html :: header(title=${title}, showHomeLink=${showHomeLink}, showSearchLink=${showSearchLink}, showRegistrationLink=${showRegistrationLink}, showAuthorizationLink=${showAuthorizationLink}, userName=${userName}, showSignOutLink=${showSignOutLink})}"></div>
     </div>
-    <div class="container">
-        <form th:action="@{/search}" method="post" class="d-flex">
+    <div class="container d-block">
+        <form th:action="@{/search}" method="post" class="d-flex justify-content-center">
             <input type="search" id="form1" class="form-control" name="location-name"/>
             <button type="submit" class="btn btn-primary" data-mdb-ripple-init>
                 Find
             </button>
         </form>
+        <div th:if="${errorMessageForLocationNameField}">
+            <p th:text="${errorMessageForLocationNameField}" class="alert alert-danger p-2" role="alert"></p>
+        </div>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

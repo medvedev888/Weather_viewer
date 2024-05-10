@@ -8,12 +8,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import me.vladislav.weather_viewer.dao.SessionDAO;
 import me.vladislav.weather_viewer.exceptions.CookieNotFoundException;
+import me.vladislav.weather_viewer.exceptions.LocationNameIsNotValidException;
 import me.vladislav.weather_viewer.exceptions.SessionExpiredException;
 import me.vladislav.weather_viewer.models.Session;
 import me.vladislav.weather_viewer.models.User;
 import me.vladislav.weather_viewer.utils.CookieUtils;
 import me.vladislav.weather_viewer.utils.SessionUtils;
 import me.vladislav.weather_viewer.utils.ThymeleafUtils;
+import me.vladislav.weather_viewer.utils.ValidationUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -31,7 +33,7 @@ public class SearchServlet extends BaseServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         WebContext webContext = ThymeleafUtils.getWebContext(req, resp, getServletContext());
         TemplateEngine templateEngine = (TemplateEngine) (getServletContext().getAttribute("templateEngine"));
 
@@ -48,6 +50,7 @@ public class SearchServlet extends BaseServlet {
         User user = session.getUser();
 
         setTemplateVariablesForAuthenticatedUsers(webContext, true, false);
+        settingSessionAttributesForRenderingErrorMessage(req.getSession(), webContext);
 
         webContext.setVariable("userName", user.getLogin());
 
@@ -55,7 +58,17 @@ public class SearchServlet extends BaseServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getAttribute("location-name");
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String locationName = req.getParameter("location-name");
+
+        if (ValidationUtils.isValidLocationName(locationName)) {
+//            try{
+//
+//            }
+
+            resp.sendRedirect("/home");
+        } else {
+            throw new LocationNameIsNotValidException("\"" + locationName + "\"" + " is not valid location name");
+        }
     }
 }
