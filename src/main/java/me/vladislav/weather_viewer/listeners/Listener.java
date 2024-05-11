@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebListener;
 import me.vladislav.weather_viewer.dao.LocationDAO;
 import me.vladislav.weather_viewer.dao.SessionDAO;
 import me.vladislav.weather_viewer.dao.UserDAO;
+import me.vladislav.weather_viewer.services.WeatherAPIService;
 import me.vladislav.weather_viewer.utils.HibernateUtils;
 import me.vladislav.weather_viewer.utils.ThymeleafUtils;
 
@@ -22,9 +23,12 @@ public class Listener implements ServletContextListener {
         UserDAO userDAO = new UserDAO();
         LocationDAO locationDAO = new LocationDAO();
         SessionDAO sessionDAO = new SessionDAO();
+        WeatherAPIService weatherAPIService = new WeatherAPIService();
 
         context.setAttribute("userDAO", userDAO);
         context.setAttribute("locationDAO", locationDAO);
         context.setAttribute("sessionDAO", sessionDAO);
+        context.setAttribute("weatherAPIService", weatherAPIService);
+
     }
 }
