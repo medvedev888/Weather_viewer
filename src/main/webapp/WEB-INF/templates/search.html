@@ -12,7 +12,7 @@
         <div th:replace="~{fragments/header-fragment.html :: header(title=${title}, showHomeLink=${showHomeLink}, showSearchLink=${showSearchLink}, showRegistrationLink=${showRegistrationLink}, showAuthorizationLink=${showAuthorizationLink}, userName=${userName}, showSignOutLink=${showSignOutLink})}"></div>
     </div>
     <div class="container d-block">
-        <form th:action="@{/search}" method="post" class="d-flex justify-content-center">
+        <form th:action="@{/search}" method="get" class="d-flex justify-content-center">
             <input type="search" id="form1" class="form-control" name="location-name"/>
             <button type="submit" class="btn btn-primary" data-mdb-ripple-init>
                 Find
@@ -20,6 +20,26 @@
         </form>
         <div th:if="${errorMessageForLocationNameField}">
             <p th:text="${errorMessageForLocationNameField}" class="alert alert-danger p-2" role="alert"></p>
+        </div>
+    </div>
+    <div class="container">
+        <h2>Search results</h2>
+        <div class="row row-cols-3 mt-3">
+            <div class="col mb-3" th:each="location : ${listOfLocationDTO}">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${location.getName()}">Name</h5>
+                        <p class="card-text" th:text="${location.getCountry()}">Country</p>
+<!--                        add button-->
+                        <form method="post">
+                            <input th:name="name" th:value="${location.getName()}" type="hidden">
+                            <input th:name="latitude" th:value="${location.getLatitude()}" type="hidden">
+                            <input th:name="longitude" th:value="${location.getLongitude()}" type="hidden">
+                            <button class="btn btn-primary" type="submit">Add to tracked locations</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

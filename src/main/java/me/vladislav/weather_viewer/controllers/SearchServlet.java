@@ -12,7 +12,6 @@ import me.vladislav.weather_viewer.dto.LocationDTO;
 import me.vladislav.weather_viewer.exceptions.CookieNotFoundException;
 import me.vladislav.weather_viewer.exceptions.LocationNameIsNotValidException;
 import me.vladislav.weather_viewer.exceptions.SessionExpiredException;
-import me.vladislav.weather_viewer.models.Location;
 import me.vladislav.weather_viewer.models.Session;
 import me.vladislav.weather_viewer.models.User;
 import me.vladislav.weather_viewer.services.WeatherAPIService;
@@ -24,6 +23,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "SearchServlet", value = "/search")
 public class SearchServlet extends BaseServlet {
@@ -57,10 +57,22 @@ public class SearchServlet extends BaseServlet {
 
         User user = session.getUser();
 
+        String locationName = req.getParameter("location-name");
+        if(locationName != null){
+            if (ValidationUtils.isValidLocationName(locationName)) {
+                locationName = locationName.strip();
+                List<LocationDTO> listOfLocationDTO = weatherAPIService.getLocationsByTheName(locationName);
+                webContext.setVariable("listOfLocationDTO", listOfLocationDTO);
+            } else {
+                throw new LocationNameIsNotValidException("\"" + locationName + "\"" + " is not valid location name");
+            }
+        }
+
         setTemplateVariablesForAuthenticatedUsers(webContext, true, false);
         settingSessionAttributesForRenderingErrorMessage(req.getSession(), webContext);
 
         webContext.setVariable("userName", user.getLogin());
+
 
         templateEngine.process("search.html", webContext, resp.getWriter());
     }
@@ -79,16 +91,9 @@ public class SearchServlet extends BaseServlet {
             throw new SessionExpiredException("Session has expired");
         }
 
+        // для добавления новой локации
         User user = session.getUser();
 
-        if (ValidationUtils.isValidLocationName(locationName)) {
-            LocationDTO locationDTO = weatherAPIService.getLocationByTheName(locationName);
-            Location location = new Location(locationName, user, locationDTO.getCoordinate().getLatitude(), locationDTO.getCoordinate().getLongitude());
-            locationDAO.save(location);
 
-            resp.sendRedirect(req.getContextPath() + "/home");
-        } else {
-            throw new LocationNameIsNotValidException("\"" + locationName + "\"" + " is not valid location name");
-        }
     }
 }

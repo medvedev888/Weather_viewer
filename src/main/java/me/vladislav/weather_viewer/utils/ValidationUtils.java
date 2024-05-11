@@ -38,6 +38,7 @@ public class ValidationUtils {
         if (locationName == null || locationName.isEmpty()) {
             return false;
         }
+        locationName = locationName.strip();
         if (locationName.length() <= 255) {
             return locationName.matches(regex);
         }
