@@ -54,7 +54,6 @@ public class BaseServlet extends HttpServlet {
     }
 
     protected void setTemplateVariablesForAuthenticatedUsers(WebContext webContext, boolean showHomeLink, boolean showSearchLink) {
-        webContext.clearVariables();
         webContext.setVariable("showHomeLink", showHomeLink);
         webContext.setVariable("showSearchLink", showSearchLink);
         webContext.setVariable("showRegistrationLink", false);
