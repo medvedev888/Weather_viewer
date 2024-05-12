@@ -6,9 +6,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import me.vladislav.weather_viewer.dao.LocationDAO;
 import me.vladislav.weather_viewer.dao.SessionDAO;
 import me.vladislav.weather_viewer.exceptions.CookieNotFoundException;
 import me.vladislav.weather_viewer.exceptions.SessionExpiredException;
+import me.vladislav.weather_viewer.models.Location;
 import me.vladislav.weather_viewer.models.Session;
 import me.vladislav.weather_viewer.models.User;
 import me.vladislav.weather_viewer.utils.CookieUtils;
@@ -18,16 +20,19 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "HomeServlet", value = "/")
 public class HomeServlet extends BaseServlet {
     private SessionDAO sessionDAO;
+    private LocationDAO locationDAO;
 
     @Override
     public void init() throws ServletException {
         super.init();
         ServletContext servletContext = getServletContext();
         sessionDAO = (SessionDAO) servletContext.getAttribute("sessionDAO");
+        locationDAO = (LocationDAO) servletContext.getAttribute("locationDAO");
     }
 
     @Override
@@ -48,6 +53,10 @@ public class HomeServlet extends BaseServlet {
         User user = session.getUser();
 
         //вывод локаций для пользователя
+        List<Location> listOfLocations = locationDAO.getLocationsByTheUser(user).get();
+        // добавить прогноз погоды
+
+        webContext.setVariable("listOfLocations", listOfLocations);
 
         setTemplateVariablesForAuthenticatedUsers(webContext, false, true);
 
