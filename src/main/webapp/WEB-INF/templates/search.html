@@ -23,20 +23,14 @@
         </div>
     </div>
     <div class="container">
-        <h2>Search results</h2>
-        <div class="row row-cols-3 mt-3">
+        <h3 class="mb-3 mt-3">Search results</h3>
+        <div class="row row-cols-4 mt-3">
             <div class="col mb-3" th:each="location : ${listOfLocationDTO}">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title" th:text="${location.getName()}">Name</h5>
                         <p class="card-text" th:text="${location.getCountry()}">Country</p>
 <!--                        add button-->
-                        <form method="post">
-                            <input th:name="name" th:value="${location.getName()}" type="hidden">
-                            <input th:name="latitude" th:value="${location.getLatitude()}" type="hidden">
-                            <input th:name="longitude" th:value="${location.getLongitude()}" type="hidden">
-                            <button class="btn btn-primary" type="submit">Add to tracked locations</button>
-                        </form>
                     </div>
                 </div>
             </div>
