@@ -12,6 +12,7 @@ import me.vladislav.weather_viewer.dto.LocationDTO;
 import me.vladislav.weather_viewer.exceptions.CookieNotFoundException;
 import me.vladislav.weather_viewer.exceptions.LocationNameIsNotValidException;
 import me.vladislav.weather_viewer.exceptions.SessionExpiredException;
+import me.vladislav.weather_viewer.models.Location;
 import me.vladislav.weather_viewer.models.Session;
 import me.vladislav.weather_viewer.models.User;
 import me.vladislav.weather_viewer.services.WeatherAPIService;
@@ -23,6 +24,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 @WebServlet(name = "SearchServlet", value = "/search")
@@ -80,6 +82,9 @@ public class SearchServlet extends BaseServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String locationName = req.getParameter("location-name").strip();
+        String latitudeString = req.getParameter("latitude").strip();
+        String longitudeString = req.getParameter("longitude").strip();
+
 
         Cookie[] cookies = req.getCookies();
         Cookie cookie = CookieUtils.findCookie(cookies, "sessionId").orElseThrow(() -> new CookieNotFoundException("Cookie not found"));
@@ -91,9 +96,15 @@ public class SearchServlet extends BaseServlet {
             throw new SessionExpiredException("Session has expired");
         }
 
-        // для добавления новой локации
         User user = session.getUser();
 
+        // добавить обработку exceptions
+        BigDecimal latitude = new BigDecimal(latitudeString);
+        BigDecimal longitude = new BigDecimal(longitudeString);
 
+        Location location = new Location(locationName, user, latitude, longitude);
+        locationDAO.save(location);
+
+        resp.sendRedirect(req.getContextPath() + "/home");
     }
 }
