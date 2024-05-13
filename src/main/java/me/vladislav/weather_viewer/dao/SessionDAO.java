@@ -1,5 +1,7 @@
 package me.vladislav.weather_viewer.dao;
 
+import lombok.extern.slf4j.Slf4j;
+import me.vladislav.weather_viewer.exceptions.DataAccessException;
 import me.vladislav.weather_viewer.utils.HibernateUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -8,6 +10,7 @@ import org.hibernate.query.Query;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 public class SessionDAO implements DataAccessObject<me.vladislav.weather_viewer.models.Session> {
 
     @Override
@@ -44,7 +47,8 @@ public class SessionDAO implements DataAccessObject<me.vladislav.weather_viewer.
             session.persist(sessionObject);
             session.getTransaction().commit();
         } catch (HibernateException e) {
-            e.printStackTrace();
+            log.warn("Error when saving session");
+            throw new DataAccessException("Error when saving session", e);
         }
     }
 
@@ -55,7 +59,8 @@ public class SessionDAO implements DataAccessObject<me.vladislav.weather_viewer.
             session.remove(sessionObject);
             session.getTransaction().commit();
         } catch (HibernateException e) {
-            e.printStackTrace();
+            log.warn("Error when deleting session");
+            throw new DataAccessException("Error when deleting session", e);
         }
     }
 }

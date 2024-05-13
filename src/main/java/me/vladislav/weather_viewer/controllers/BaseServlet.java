@@ -19,24 +19,23 @@ public class BaseServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             super.service(req, resp);
-        } catch (DataAccessException e) {
+        } catch (DataAccessException | WeatherApiException e) {
             log.warn(e.getMessage());
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database interaction error (" + e.getMessage() + ")");
         } catch (CookieNotFoundException | SessionExpiredException e) {
             log.warn(e.getMessage());
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
             WebContext webContext = ThymeleafUtils.getWebContext(req, resp, getServletContext());
             TemplateEngine templateEngine = (TemplateEngine) (getServletContext().getAttribute("templateEngine"));
             setTemplateVariablesForUnauthenticatedUsers(webContext);
-
             templateEngine.process("home.html", webContext, resp.getWriter());
         } catch (LocationNameIsNotValidException e) {
             log.warn(e.getMessage());
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             req.getSession().setAttribute("errorMessageForLocationNameField", e.getMessage());
             resp.sendRedirect(req.getRequestURI());
-        } catch (ServletException | WeatherApiException e) {
+        } catch (ServletException e) {
+            log.warn(e.getMessage());
             throw new RuntimeException(e);
         }
     }

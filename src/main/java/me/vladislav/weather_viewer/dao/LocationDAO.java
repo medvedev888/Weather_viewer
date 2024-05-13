@@ -1,5 +1,7 @@
 package me.vladislav.weather_viewer.dao;
 
+import lombok.extern.slf4j.Slf4j;
+import me.vladislav.weather_viewer.exceptions.DataAccessException;
 import me.vladislav.weather_viewer.models.Location;
 import me.vladislav.weather_viewer.models.User;
 import me.vladislav.weather_viewer.utils.HibernateUtils;
@@ -10,6 +12,7 @@ import org.hibernate.query.Query;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 public class LocationDAO implements DataAccessObject<Location> {
 
     public Optional<List<Location>> getLocationsByTheUser(User user){
@@ -60,7 +63,8 @@ public class LocationDAO implements DataAccessObject<Location> {
             session.persist(location);
             session.getTransaction().commit();
         } catch (HibernateException e) {
-            e.printStackTrace();
+            log.warn("Error when saving location");
+            throw new DataAccessException("Error when saving location", e);
         }
     }
 
@@ -71,7 +75,8 @@ public class LocationDAO implements DataAccessObject<Location> {
             session.remove(location);
             session.getTransaction().commit();
         } catch (HibernateException e) {
-            e.printStackTrace();
+            log.warn("Error when deleting location");
+            throw new DataAccessException("Error when deleting location", e);
         }
     }
 }

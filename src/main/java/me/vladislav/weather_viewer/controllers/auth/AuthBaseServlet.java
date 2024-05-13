@@ -15,9 +15,6 @@ public class AuthBaseServlet extends BaseServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             super.service(req, resp);
-        } catch (DataAccessException e) {
-            log.warn(e.getMessage());
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database interaction error (" + e.getMessage() + ")");
         } catch (LoginIsNotValidException | UserWithThisLoginDoesNotExistException e) {
             log.warn(e.getMessage());
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -33,8 +30,6 @@ public class AuthBaseServlet extends BaseServlet {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             req.getSession().setAttribute("errorMessageForPassword", e.getMessage());
             resp.sendRedirect(req.getRequestURI());
-        } catch (Exception e) {
-            log.warn(e.getMessage());
         }
     }
 }

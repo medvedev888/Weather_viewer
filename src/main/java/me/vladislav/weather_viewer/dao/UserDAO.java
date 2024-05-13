@@ -63,6 +63,7 @@ public class UserDAO implements DataAccessObject<User> {
             session.persist(user);
             session.getTransaction().commit();
         } catch (HibernateException e) {
+            log.warn("Error when saving user");
             throw new DataAccessException("Error when saving user", e);
         }
     }
@@ -75,6 +76,7 @@ public class UserDAO implements DataAccessObject<User> {
             session.remove(user);
             session.getTransaction().commit();
         } catch (HibernateException e) {
+            log.warn("Error when deleting user");
             throw new DataAccessException("Error when deleting user", e);
         }
     }
