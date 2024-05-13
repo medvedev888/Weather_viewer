@@ -12,26 +12,28 @@
 </div>
 <div class="container">
     <h3 class="mb-3 mt-3">Tracked locations</h3>
-    <div class="row row-cols-4 mt-3">
-        <div th:if="${listOfLocations != null}">
-            <div class="col mb-3" th:if="${listOfLocations}"
-                 th:each="index : ${#numbers.sequence(0, #lists.size(listOfLocations) - 1)}">
-                <div class="card" th:if="${listOfLocations.get(index)}">
-                    <div class="card-body" th:if="${listOfLocations.get(index)}">
-                        <h4 class="card-title" th:text="${listOfLocations.get(index).name}">Name</h4>
-                        <div class="card-group d-block">
-                            <p class="card-text">Temperature: <span th:text="${listOfWeathers.get(index).main.temperature}"/></p>
-                            <p class="card-text">Feels like: <span th:text="${listOfWeathers.get(index).main.feelsLike}"/></p>
-                            <p class="card-text">Temperature min: <span th:text="${listOfWeathers.get(index).main.temperatureMin}"/></p>
-                            <p class="card-text">Temperature max: <span th:text="${listOfWeathers.get(index).main.temperatureMax}"/></p>
-                            <p class="card-text">Pressure: <span th:text="${listOfWeathers.get(index).main.pressure}"/></p>
-                            <p class="card-text">Humidity: <span th:text="${listOfWeathers.get(index).main.humidity}"/></p>
-                        </div>
-                        <div class="card-group">
-
-                        </div>
-                        <!--                        нужно добавить кнопку delete-->
+    <div class="row row-cols-4 mt-3" th:if="${listOfLocations != null and listOfLocations.size() != 0}">
+        <div class="col mb-3"
+             th:each="index : ${#numbers.sequence(0, #lists.size(listOfLocations) - 1)}">
+            <div class="card" th:if="${listOfLocations.get(index)}">
+                <div class="card-body" th:if="${listOfLocations.get(index)}">
+                    <h4 class="card-title" th:text="${listOfLocations.get(index).name}">Name</h4>
+                    <div class="card-group d-block">
+                        <p class="card-text">Temperature: <span
+                                th:text="${listOfWeathers.get(index).main.temperature}"/></p>
+                        <p class="card-text">Feels like: <span th:text="${listOfWeathers.get(index).main.feelsLike}"/>
+                        </p>
+                        <p class="card-text">Temperature min: <span
+                                th:text="${listOfWeathers.get(index).main.temperatureMin}"/></p>
+                        <p class="card-text">Temperature max: <span
+                                th:text="${listOfWeathers.get(index).main.temperatureMax}"/></p>
+                        <p class="card-text">Pressure: <span th:text="${listOfWeathers.get(index).main.pressure}"/></p>
+                        <p class="card-text">Humidity: <span th:text="${listOfWeathers.get(index).main.humidity}"/></p>
                     </div>
+                    <div class="card-group">
+
+                    </div>
+                    <!--                        нужно добавить кнопку delete-->
                 </div>
             </div>
         </div>
