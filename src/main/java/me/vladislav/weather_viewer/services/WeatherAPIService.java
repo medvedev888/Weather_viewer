@@ -3,6 +3,7 @@ package me.vladislav.weather_viewer.services;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.vladislav.weather_viewer.dto.LocationDTO;
+import me.vladislav.weather_viewer.exceptions.WeatherApiException;
 
 import java.io.IOException;
 import java.net.URI;
