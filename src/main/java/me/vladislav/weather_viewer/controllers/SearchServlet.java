@@ -81,7 +81,7 @@ public class SearchServlet extends BaseServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String locationName = req.getParameter("location-name").strip();
+        String locationName = req.getParameter("name").strip();
         String latitudeString = req.getParameter("latitude").strip();
         String longitudeString = req.getParameter("longitude").strip();
 
