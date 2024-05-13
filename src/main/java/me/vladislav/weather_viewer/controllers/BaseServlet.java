@@ -6,10 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import me.vladislav.weather_viewer.exceptions.CookieNotFoundException;
-import me.vladislav.weather_viewer.exceptions.DataAccessException;
-import me.vladislav.weather_viewer.exceptions.LocationNameIsNotValidException;
-import me.vladislav.weather_viewer.exceptions.SessionExpiredException;
+import me.vladislav.weather_viewer.exceptions.*;
 import me.vladislav.weather_viewer.utils.ThymeleafUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -39,7 +36,7 @@ public class BaseServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             req.getSession().setAttribute("errorMessageForLocationNameField", e.getMessage());
             resp.sendRedirect(req.getRequestURI());
-        } catch (ServletException e) {
+        } catch (ServletException | WeatherApiException e) {
             throw new RuntimeException(e);
         }
     }

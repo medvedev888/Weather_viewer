@@ -20,20 +20,20 @@ public class WeatherAPIService {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
 
-    public List<LocationDTO> getLocationsByTheName(String locationName){
+    public List<LocationDTO> getLocationsByTheName(String locationName) {
         try {
-            URI uri = buildURI(locationName);
+            URI uri = buildUriForGeocodingRequest(locationName);
             HttpRequest request = HttpRequest.newBuilder(uri).GET().build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             return objectMapper.readValue(response.body(), new TypeReference<List<LocationDTO>>() {});
         } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+            throw new WeatherApiException("Error when retrieving location by the name", e);
         }
     }
 
-    private static URI buildURI(String locationName){
-        return URI.create(API_URL + API_URL_GEO_SUFFIX +
+    private static URI buildUriForGeocodingRequest(String locationName) {
+        return URI.create(API_URL + API_URL_GEOCODING_SUFFIX +
                 "?q=" + locationName +
                 "&appid=" + API_KEY +
                 "&units=metric");

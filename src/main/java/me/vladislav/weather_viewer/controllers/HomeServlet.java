@@ -52,10 +52,8 @@ public class HomeServlet extends BaseServlet {
 
         User user = session.getUser();
 
-        //вывод локаций для пользователя
-        List<Location> listOfLocations = locationDAO.getLocationsByTheUser(user).get();
+        List<Location> listOfLocations = locationDAO.getLocationsByTheUser(user).orElseGet(() -> null);
         // добавить прогноз погоды
-
         webContext.setVariable("listOfLocations", listOfLocations);
 
         setTemplateVariablesForAuthenticatedUsers(webContext, false, true);

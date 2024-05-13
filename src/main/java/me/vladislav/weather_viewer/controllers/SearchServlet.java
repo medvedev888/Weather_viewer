@@ -60,7 +60,7 @@ public class SearchServlet extends BaseServlet {
         User user = session.getUser();
 
         String locationName = req.getParameter("location-name");
-        if(locationName != null){
+        if (locationName != null) {
             if (ValidationUtils.isValidLocationName(locationName)) {
                 locationName = locationName.strip();
                 List<LocationDTO> listOfLocationDTO = weatherAPIService.getLocationsByTheName(locationName);
@@ -85,7 +85,6 @@ public class SearchServlet extends BaseServlet {
         String latitudeString = req.getParameter("latitude").strip();
         String longitudeString = req.getParameter("longitude").strip();
 
-
         Cookie[] cookies = req.getCookies();
         Cookie cookie = CookieUtils.findCookie(cookies, "sessionId").orElseThrow(() -> new CookieNotFoundException("Cookie not found"));
 
@@ -98,7 +97,6 @@ public class SearchServlet extends BaseServlet {
 
         User user = session.getUser();
 
-        // добавить обработку exceptions
         BigDecimal latitude = new BigDecimal(latitudeString);
         BigDecimal longitude = new BigDecimal(longitudeString);
 
