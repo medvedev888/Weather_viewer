@@ -10,6 +10,7 @@ import me.vladislav.weather_viewer.dao.LocationDAO;
 import me.vladislav.weather_viewer.dao.SessionDAO;
 import me.vladislav.weather_viewer.dto.LocationDTO;
 import me.vladislav.weather_viewer.exceptions.CookieNotFoundException;
+import me.vladislav.weather_viewer.exceptions.DuplicateLocationForUserException;
 import me.vladislav.weather_viewer.exceptions.LocationNameIsNotValidException;
 import me.vladislav.weather_viewer.exceptions.SessionExpiredException;
 import me.vladislav.weather_viewer.models.Location;
@@ -25,6 +26,7 @@ import org.thymeleaf.context.WebContext;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @WebServlet(name = "SearchServlet", value = "/search")
@@ -97,11 +99,15 @@ public class SearchServlet extends BaseServlet {
 
         User user = session.getUser();
 
-        BigDecimal latitude = new BigDecimal(latitudeString);
-        BigDecimal longitude = new BigDecimal(longitudeString);
+        BigDecimal latitude = new BigDecimal(latitudeString).setScale(7, RoundingMode.HALF_UP);;
+        BigDecimal longitude = new BigDecimal(longitudeString).setScale(7, RoundingMode.HALF_UP);;
 
         Location location = new Location(locationName, user, latitude, longitude);
-        locationDAO.save(location);
+        if (!locationDAO.isLocationExists(location)) {
+            locationDAO.save(location);
+        } else {
+            throw new DuplicateLocationForUserException("This location has already been added to your watchlist");
+        }
 
         resp.sendRedirect(req.getContextPath() + "/home");
     }

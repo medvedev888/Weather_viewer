@@ -15,6 +15,21 @@ import java.util.Optional;
 @Slf4j
 public class LocationDAO implements DataAccessObject<Location> {
 
+    public boolean isLocationExists(Location location){
+        try(Session session = HibernateUtils.getSession()){
+            session.beginTransaction();
+            Query<Location> query = session.createQuery("SELECT l FROM Location l WHERE l.name=:locationName AND l.user=:user", Location.class);
+            query.setParameter("user", location.getUser());
+            query.setParameter("locationName", location.getName());
+            Location result = query.uniqueResult();
+            session.getTransaction().commit();
+            return result != null;
+        } catch (HibernateException e){
+            log.warn("Error when checking whether the location exists");
+            throw new DataAccessException("Error when checking whether the location exists", e);
+        }
+    }
+
     public Optional<List<Location>> getLocationsByTheUser(User user){
         try(Session session = HibernateUtils.getSession()){
             session.beginTransaction();

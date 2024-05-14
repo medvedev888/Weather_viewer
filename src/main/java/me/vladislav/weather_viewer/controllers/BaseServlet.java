@@ -22,6 +22,11 @@ public class BaseServlet extends HttpServlet {
         } catch (DataAccessException | WeatherApiException e) {
             log.warn(e.getMessage());
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database interaction error (" + e.getMessage() + ")");
+        } catch (DuplicateLocationForUserException e) {
+            log.warn(e.getMessage());
+            resp.setStatus(HttpServletResponse.SC_CONFLICT);
+            req.getSession().setAttribute("errorMessageForLocationNameField", e.getMessage());
+            resp.sendRedirect(req.getRequestURI());
         } catch (CookieNotFoundException | SessionExpiredException e) {
             log.warn(e.getMessage());
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
