@@ -13,27 +13,48 @@
 <div class="container">
     <h3 class="mb-3 mt-3">Tracked locations</h3>
     <div class="row row-cols-4 mt-3" th:if="${listOfLocations != null and listOfLocations.size() != 0}">
-        <div class="col mb-3"
+        <div class="col"
              th:each="index : ${#numbers.sequence(0, #lists.size(listOfLocations) - 1)}">
             <div class="card" th:if="${listOfLocations.get(index)}">
                 <div class="card-body" th:if="${listOfLocations.get(index)}">
-                    <h4 class="card-title" th:text="${listOfLocations.get(index).name}">Name</h4>
                     <div class="card-group d-block">
-                        <p class="card-text">Temperature: <span
-                                th:text="${listOfWeathers.get(index).main.temperature}"/></p>
-                        <p class="card-text">Feels like: <span th:text="${listOfWeathers.get(index).main.feelsLike}"/>
+                        <h4 class="card-title" th:text="${listOfLocations.get(index).name}">Name</h4>
+                    </div>
+                    <div class="card-group d-block mb-3 mt-3 pt-0 pb-0">
+                        <p class="card-text mt-0 mb-0">Main: <span th:text="${listOfWeathers.get(index).weather.get(0).main}"/>
                         </p>
-                        <p class="card-text">Temperature min: <span
-                                th:text="${listOfWeathers.get(index).main.temperatureMin}"/></p>
-                        <p class="card-text">Temperature max: <span
-                                th:text="${listOfWeathers.get(index).main.temperatureMax}"/></p>
-                        <p class="card-text">Pressure: <span th:text="${listOfWeathers.get(index).main.pressure}"/></p>
-                        <p class="card-text">Humidity: <span th:text="${listOfWeathers.get(index).main.humidity}"/></p>
+                        <p class="card-text mt-0 mb-0">Description: <span
+                                th:text="${listOfWeathers.get(index).weather.get(0).description}"/></p>
                     </div>
-                    <div class="card-group">
-
+                    <div class="card-group d-block mt-3 mb-3 pt-0 pb-0">
+                        <p class="card-text mt-0 mb-0">Temperature: <span
+                                th:text="${listOfWeathers.get(index).main.temperature}"/> °C</p>
+                        <p class="card-text mt-0 mb-0">Feels like: <span th:text="${listOfWeathers.get(index).main.feelsLike}"/> °C</p>
+                        <p class="card-text mt-0 mb-0">Temperature min: <span
+                                th:text="${listOfWeathers.get(index).main.temperatureMin}"/> °C</p>
+                        <p class="card-text mt-0 mb-0">Temperature max: <span
+                                th:text="${listOfWeathers.get(index).main.temperatureMax}"/> °C</p>
+                        <p class="card-text mt-0 mb-0">Pressure: <span th:text="${listOfWeathers.get(index).main.pressure}"/> hPa</p>
+                        <p class="card-text mt-0 mb-0">Humidity: <span th:text="${listOfWeathers.get(index).main.humidity}"/>%</p>
                     </div>
-                    <!--                        нужно добавить кнопку delete-->
+                    <div class="card-group d-block mt-3 mb-3 t-0 pb-0">
+                        <p class="card-text mt-0 mb-0">Visibility: <span th:text="${listOfWeathers.get(index).visibility}"/> meters</p>
+                    </div>
+                    <div class="card-group d-block mt-3 mb-3 pt-0 pb-0">
+                        <p class="card-text mt-0 mb-0">Wind speed: <span th:text="${listOfWeathers.get(index).wind.speed}"/> m/s</p>
+                        <p class="card-text mt-0 mb-0">Wind deg: <span th:text="${listOfWeathers.get(index).wind.deg}"/>°</p>
+                    </div>
+                    <div class="card-group d-block mt-3 mb-3 pt-0 pb-0">
+                        <p class="card-text mt-0 mb-0">Clouds all: <span th:text="${listOfWeathers.get(index).clouds.all}"/>%</p>
+                    </div>
+                    <div class="card-group d-block">
+                        <form method="post">
+                            <input th:name="name" th:value="${listOfLocations.get(index).name}" type="hidden">
+                            <input th:name="latitude" th:value="${listOfLocations.get(index).latitude}" type="hidden">
+                            <input th:name="longitude" th:value="${listOfLocations.get(index).longitude}" type="hidden">
+                            <button class="btn btn-primary" type="submit">Delete from tracked locations</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
