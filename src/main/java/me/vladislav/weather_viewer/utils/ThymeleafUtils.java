@@ -13,7 +13,7 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 @Slf4j
 public class ThymeleafUtils {
 
-    public static WebContext getWebContext(HttpServletRequest request, HttpServletResponse response, ServletContext servletContext){
+    public static WebContext getWebContext(HttpServletRequest request, HttpServletResponse response, ServletContext servletContext) {
         JakartaServletWebApplication application =
                 JakartaServletWebApplication.buildApplication(servletContext);
 
@@ -24,7 +24,7 @@ public class ThymeleafUtils {
         return webContext;
     }
 
-    public static void configureTemplateEngine(ServletContext servletContext){
+    public static void configureTemplateEngine(ServletContext servletContext) {
         log.info("Configure template Engine");
         WebApplicationTemplateResolver webApplicationTemplateResolver = new WebApplicationTemplateResolver(JakartaServletWebApplication.buildApplication(servletContext));
         webApplicationTemplateResolver.setTemplateMode("HTML");

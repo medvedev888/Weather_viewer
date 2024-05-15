@@ -15,8 +15,8 @@ import java.util.Optional;
 @Slf4j
 public class LocationDAO implements DataAccessObject<Location> {
 
-    public Optional<Location> getByName(String locationName, User user){
-        try(Session session = HibernateUtils.getSession()){
+    public Optional<Location> getByName(String locationName, User user) {
+        try (Session session = HibernateUtils.getSession()) {
             session.beginTransaction();
             Query<Location> query = session.createQuery("SELECT l FROM Location l WHERE l.name=:locationName AND l.user=:user", Location.class);
             query.setParameter("locationName", locationName);
@@ -24,14 +24,14 @@ public class LocationDAO implements DataAccessObject<Location> {
             Location result = query.uniqueResult();
             session.getTransaction().commit();
             return Optional.ofNullable(result);
-        } catch (HibernateException e){
+        } catch (HibernateException e) {
             log.warn("Error when getting location by the name");
             throw new DataAccessException("Error when getting location by the name", e);
         }
     }
 
-    public boolean isLocationExists(Location location){
-        try(Session session = HibernateUtils.getSession()){
+    public boolean isLocationExists(Location location) {
+        try (Session session = HibernateUtils.getSession()) {
             session.beginTransaction();
             Query<Location> query = session.createQuery("SELECT l FROM Location l WHERE l.name=:locationName AND l.user=:user", Location.class);
             query.setParameter("locationName", location.getName());
@@ -39,21 +39,21 @@ public class LocationDAO implements DataAccessObject<Location> {
             Location result = query.uniqueResult();
             session.getTransaction().commit();
             return result != null;
-        } catch (HibernateException e){
+        } catch (HibernateException e) {
             log.warn("Error when checking whether the location exists");
             throw new DataAccessException("Error when checking whether the location exists", e);
         }
     }
 
-    public Optional<List<Location>> getLocationsByTheUser(User user){
-        try(Session session = HibernateUtils.getSession()){
+    public Optional<List<Location>> getLocationsByTheUser(User user) {
+        try (Session session = HibernateUtils.getSession()) {
             session.beginTransaction();
             Query<Location> query = session.createQuery("SELECT l FROM Location l WHERE l.user = :user", Location.class);
             query.setParameter("user", user);
             List<Location> listOfLocations = query.getResultList();
             session.getTransaction().commit();
             return Optional.ofNullable(listOfLocations);
-        } catch (HibernateException e){
+        } catch (HibernateException e) {
             e.printStackTrace();
             return Optional.empty();
         }

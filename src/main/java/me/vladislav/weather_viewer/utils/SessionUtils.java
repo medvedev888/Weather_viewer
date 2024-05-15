@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public class SessionUtils {
 
-    public static boolean isSessionExpired(Session session){
+    public static boolean isSessionExpired(Session session) {
         return session.getExpiresAt().isBefore(LocalDateTime.now());
     }
 

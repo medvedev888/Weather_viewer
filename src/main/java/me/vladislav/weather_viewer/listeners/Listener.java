@@ -11,7 +11,6 @@ import me.vladislav.weather_viewer.services.WeatherAPIService;
 import me.vladislav.weather_viewer.utils.HibernateUtils;
 import me.vladislav.weather_viewer.utils.ThymeleafUtils;
 
-
 @WebListener
 public class Listener implements ServletContextListener {
     @Override
@@ -29,6 +28,5 @@ public class Listener implements ServletContextListener {
         context.setAttribute("locationDAO", locationDAO);
         context.setAttribute("sessionDAO", sessionDAO);
         context.setAttribute("weatherAPIService", weatherAPIService);
-
     }
 }

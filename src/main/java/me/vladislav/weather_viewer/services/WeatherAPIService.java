@@ -28,7 +28,8 @@ public class WeatherAPIService {
             HttpRequest request = HttpRequest.newBuilder(uri).GET().build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            return objectMapper.readValue(response.body(), new TypeReference<List<LocationDTO>>() {});
+            return objectMapper.readValue(response.body(), new TypeReference<List<LocationDTO>>() {
+            });
         } catch (Exception e) {
             throw new WeatherApiException("Error when retrieving location by the name", e);
         }
@@ -40,7 +41,8 @@ public class WeatherAPIService {
             HttpRequest request = HttpRequest.newBuilder(uri).GET().build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            return objectMapper.readValue(response.body(), new TypeReference<WeatherDTO>() {});
+            return objectMapper.readValue(response.body(), new TypeReference<WeatherDTO>() {
+            });
         } catch (Exception e) {
             throw new WeatherApiException("Error when retrieving weather by the location", e);
         }

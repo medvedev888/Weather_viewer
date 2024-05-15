@@ -83,7 +83,7 @@ public class SearchServlet extends BaseServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String locationName = req.getParameter("name").strip();
+        String locationName = req.getParameter("locationName").strip();
         String latitudeString = req.getParameter("latitude").strip();
         String longitudeString = req.getParameter("longitude").strip();
 
@@ -99,8 +99,8 @@ public class SearchServlet extends BaseServlet {
 
         User user = session.getUser();
 
-        BigDecimal latitude = new BigDecimal(latitudeString).setScale(7, RoundingMode.HALF_UP);;
-        BigDecimal longitude = new BigDecimal(longitudeString).setScale(7, RoundingMode.HALF_UP);;
+        BigDecimal latitude = new BigDecimal(latitudeString).setScale(7, RoundingMode.HALF_UP);
+        BigDecimal longitude = new BigDecimal(longitudeString).setScale(7, RoundingMode.HALF_UP);
 
         Location location = new Location(locationName, user, latitude, longitude);
         if (!locationDAO.isLocationExists(location)) {
