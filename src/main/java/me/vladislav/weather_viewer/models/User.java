@@ -11,7 +11,10 @@ import lombok.*;
 @ToString
 
 @Entity
-@Table(name = "Users")
+@Table(name = "users", indexes = {
+        @Index(name="users_id", columnList = "id", unique = true),
+        @Index(name="users_login", columnList = "login", unique = true)
+})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

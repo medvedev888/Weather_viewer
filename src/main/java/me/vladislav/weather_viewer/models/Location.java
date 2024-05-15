@@ -13,7 +13,12 @@ import java.math.BigDecimal;
 @ToString
 
 @Entity
-@Table(name = "locations")
+@Table(name = "locations", indexes = {
+        @Index(name="locations_id", columnList = "id", unique = true),
+        @Index(name="locations_name", columnList = "name"),
+        @Index(name="locations_user_id", columnList = "user_id"),
+        @Index(name="locations_name_user_id", columnList = "name, user_id", unique = true)
+})
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

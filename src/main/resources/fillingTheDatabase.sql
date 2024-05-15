@@ -1,22 +1,32 @@
-CREATE TABLE IF NOT EXISTS Users
+CREATE TABLE IF NOT EXISTS users
 (
-    ID       SERIAL PRIMARY KEY,
-    Login    VARCHAR UNIQUE NOT NULL,
-    Password VARCHAR        NOT NULL
+    id       SERIAL PRIMARY KEY,
+    login    VARCHAR UNIQUE NOT NULL,
+    password VARCHAR        NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS Locations
+CREATE UNIQUE INDEX users_id ON users(id);
+CREATE UNIQUE INDEX users_login ON users(login);
+
+CREATE TABLE IF NOT EXISTS locations
 (
-    ID        SERIAL PRIMARY KEY,
-    Name      VARCHAR NOT NULL,
-    User_ID    INTEGER REFERENCES Users (ID) ON DELETE CASCADE,
-    Latitude  NUMERIC NOT NULL,
-    Longitude NUMERIC NOT NULL
+    id        SERIAL PRIMARY KEY,
+    name      VARCHAR NOT NULL,
+    user_id    INTEGER REFERENCES users (id) ON DELETE CASCADE,
+    latitude  NUMERIC NOT NULL,
+    longitude NUMERIC NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS Sessions
+CREATE UNIQUE INDEX locations_id ON locations(id);
+CREATE INDEX locations_name ON locations(name);
+CREATE INDEX locations_user_id ON locations(user_id);
+CREATE UNIQUE INDEX locations_name_user_id ON locations(name, user_id);
+
+CREATE TABLE IF NOT EXISTS sessions
 (
-    ID        Varchar UNIQUE PRIMARY KEY,
-    User_ID    INTEGER REFERENCES Users (ID) ON DELETE CASCADE,
-    Expires_At TIMESTAMP NOT NULL
+    id        Varchar UNIQUE PRIMARY KEY,
+    user_id    INTEGER REFERENCES users (id) ON DELETE CASCADE,
+    expires_at TIMESTAMP NOT NULL
 );
+
+CREATE UNIQUE INDEX sessions_id ON sessions(id);
