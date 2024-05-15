@@ -21,7 +21,7 @@ public class BaseServlet extends HttpServlet {
             super.service(req, resp);
         } catch (DataAccessException | WeatherApiException e) {
             log.warn(e.getMessage());
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database interaction error (" + e.getMessage() + ")");
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (DuplicateLocationForUserException e) {
             log.warn(e.getMessage());
             resp.setStatus(HttpServletResponse.SC_CONFLICT);

@@ -91,7 +91,7 @@ public class HomeServlet extends BaseServlet {
         User user = session.getUser();
 
         // cannot be null
-        Location location = locationDAO.getByName(locationName).get();
+        Location location = locationDAO.getByName(locationName, user).get();
 
         locationDAO.delete(location);
 

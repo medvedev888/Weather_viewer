@@ -15,12 +15,15 @@ import java.util.Optional;
 @Slf4j
 public class LocationDAO implements DataAccessObject<Location> {
 
-    public Optional<Location> getByName(String locationName){
+    public Optional<Location> getByName(String locationName, User user){
         try(Session session = HibernateUtils.getSession()){
-            Query<Location> query = session.createQuery("SELECT l FROM Location l WHERE l.name = :locationName", Location.class);
+            session.beginTransaction();
+            Query<Location> query = session.createQuery("SELECT l FROM Location l WHERE l.name=:locationName AND l.user=:user", Location.class);
             query.setParameter("locationName", locationName);
-            Location location = query.uniqueResult();
-            return Optional.ofNullable(location);
+            query.setParameter("user", user);
+            Location result = query.uniqueResult();
+            session.getTransaction().commit();
+            return Optional.ofNullable(result);
         } catch (HibernateException e){
             log.warn("Error when getting location by the name");
             throw new DataAccessException("Error when getting location by the name", e);
@@ -31,8 +34,8 @@ public class LocationDAO implements DataAccessObject<Location> {
         try(Session session = HibernateUtils.getSession()){
             session.beginTransaction();
             Query<Location> query = session.createQuery("SELECT l FROM Location l WHERE l.name=:locationName AND l.user=:user", Location.class);
-            query.setParameter("user", location.getUser());
             query.setParameter("locationName", location.getName());
+            query.setParameter("user", location.getUser());
             Location result = query.uniqueResult();
             session.getTransaction().commit();
             return result != null;
