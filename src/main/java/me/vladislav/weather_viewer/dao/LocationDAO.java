@@ -15,6 +15,18 @@ import java.util.Optional;
 @Slf4j
 public class LocationDAO implements DataAccessObject<Location> {
 
+    public Optional<Location> getByName(String locationName){
+        try(Session session = HibernateUtils.getSession()){
+            Query<Location> query = session.createQuery("SELECT l FROM Location l WHERE l.name = :locationName", Location.class);
+            query.setParameter("locationName", locationName);
+            Location location = query.uniqueResult();
+            return Optional.ofNullable(location);
+        } catch (HibernateException e){
+            log.warn("Error when getting location by the name");
+            throw new DataAccessException("Error when getting location by the name", e);
+        }
+    }
+
     public boolean isLocationExists(Location location){
         try(Session session = HibernateUtils.getSession()){
             session.beginTransaction();

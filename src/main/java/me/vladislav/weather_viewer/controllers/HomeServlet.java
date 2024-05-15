@@ -73,4 +73,28 @@ public class HomeServlet extends BaseServlet {
 
         templateEngine.process("home.html", webContext, resp.getWriter());
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String locationName = req.getParameter("locationName").strip();
+
+        Cookie[] cookies = req.getCookies();
+        Cookie cookie = CookieUtils.findCookie(cookies, "sessionId").orElseThrow(() -> new CookieNotFoundException("Cookie not found"));
+
+        Session session = sessionDAO.getById(Integer.parseInt(cookie.getValue())).orElseThrow(() -> (new SessionExpiredException("Session has expired")));
+
+        if (SessionUtils.isSessionExpired(session)) {
+            sessionDAO.delete(session);
+            throw new SessionExpiredException("Session has expired");
+        }
+
+        User user = session.getUser();
+
+        // cannot be null
+        Location location = locationDAO.getByName(locationName).get();
+
+        locationDAO.delete(location);
+
+        resp.sendRedirect(req.getRequestURI());
+    }
 }

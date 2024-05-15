@@ -49,9 +49,7 @@
                     </div>
                     <div class="card-group d-block">
                         <form method="post">
-                            <input th:name="name" th:value="${listOfLocations.get(index).name}" type="hidden">
-                            <input th:name="latitude" th:value="${listOfLocations.get(index).latitude}" type="hidden">
-                            <input th:name="longitude" th:value="${listOfLocations.get(index).longitude}" type="hidden">
+                            <input th:name="locationName" th:value="${listOfLocations.get(index).name}" type="hidden">
                             <button class="btn btn-primary" type="submit">Delete from tracked locations</button>
                         </form>
                     </div>
