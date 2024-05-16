@@ -21,8 +21,7 @@ public class SessionDAO implements DataAccessObject<me.vladislav.weather_viewer.
             session.getTransaction().commit();
             return Optional.ofNullable(sessionObject);
         } catch (HibernateException e) {
-            e.printStackTrace();
-            return Optional.empty();
+            throw new DataAccessException("Error when getting session by id", e);
         }
     }
 
@@ -35,8 +34,7 @@ public class SessionDAO implements DataAccessObject<me.vladislav.weather_viewer.
             session.getTransaction().commit();
             return Optional.ofNullable(listOfSession);
         } catch (HibernateException e) {
-            e.printStackTrace();
-            return Optional.empty();
+            throw new DataAccessException("Error when getting all sessions", e);
         }
     }
 
@@ -47,7 +45,6 @@ public class SessionDAO implements DataAccessObject<me.vladislav.weather_viewer.
             session.persist(sessionObject);
             session.getTransaction().commit();
         } catch (HibernateException e) {
-            log.warn("Error when saving session");
             throw new DataAccessException("Error when saving session", e);
         }
     }
@@ -59,7 +56,6 @@ public class SessionDAO implements DataAccessObject<me.vladislav.weather_viewer.
             session.remove(sessionObject);
             session.getTransaction().commit();
         } catch (HibernateException e) {
-            log.warn("Error when deleting session");
             throw new DataAccessException("Error when deleting session", e);
         }
     }

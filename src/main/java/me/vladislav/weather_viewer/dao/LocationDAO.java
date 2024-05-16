@@ -25,7 +25,6 @@ public class LocationDAO implements DataAccessObject<Location> {
             session.getTransaction().commit();
             return Optional.ofNullable(result);
         } catch (HibernateException e) {
-            log.warn("Error when getting location by the name");
             throw new DataAccessException("Error when getting location by the name", e);
         }
     }
@@ -40,7 +39,6 @@ public class LocationDAO implements DataAccessObject<Location> {
             session.getTransaction().commit();
             return result != null;
         } catch (HibernateException e) {
-            log.warn("Error when checking whether the location exists");
             throw new DataAccessException("Error when checking whether the location exists", e);
         }
     }
@@ -54,8 +52,7 @@ public class LocationDAO implements DataAccessObject<Location> {
             session.getTransaction().commit();
             return Optional.ofNullable(listOfLocations);
         } catch (HibernateException e) {
-            e.printStackTrace();
-            return Optional.empty();
+            throw new DataAccessException("Error when getting locations by user", e);
         }
     }
 
@@ -67,8 +64,7 @@ public class LocationDAO implements DataAccessObject<Location> {
             session.getTransaction().commit();
             return Optional.ofNullable(location);
         } catch (HibernateException e) {
-            e.printStackTrace();
-            return Optional.empty();
+            throw new DataAccessException("Error when getting location by id", e);
         }
     }
 
@@ -81,8 +77,7 @@ public class LocationDAO implements DataAccessObject<Location> {
             session.getTransaction().commit();
             return Optional.ofNullable(listOfLocation);
         } catch (HibernateException e) {
-            e.printStackTrace();
-            return Optional.empty();
+            throw new DataAccessException("Error when getting all locations", e);
         }
     }
 
@@ -93,7 +88,6 @@ public class LocationDAO implements DataAccessObject<Location> {
             session.persist(location);
             session.getTransaction().commit();
         } catch (HibernateException e) {
-            log.warn("Error when saving location");
             throw new DataAccessException("Error when saving location", e);
         }
     }
@@ -105,7 +99,6 @@ public class LocationDAO implements DataAccessObject<Location> {
             session.remove(location);
             session.getTransaction().commit();
         } catch (HibernateException e) {
-            log.warn("Error when deleting location");
             throw new DataAccessException("Error when deleting location", e);
         }
     }
