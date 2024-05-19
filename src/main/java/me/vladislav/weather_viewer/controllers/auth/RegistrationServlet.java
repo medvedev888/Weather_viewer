@@ -33,6 +33,7 @@ public class RegistrationServlet extends AuthBaseServlet {
 
     @Override
     public void init() throws ServletException {
+        log.info("Executing the init() method in the RegistrationServlet class");
         super.init();
         ServletContext servletContext = getServletContext();
         userDAO = (UserDAO) servletContext.getAttribute("userDAO");
@@ -41,6 +42,7 @@ public class RegistrationServlet extends AuthBaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        log.info("Executing the doGet() method in the RegistrationServlet class");
         WebContext webContext = ThymeleafUtils.getWebContext(req, resp, getServletContext());
 
         TemplateEngine templateEngine = (TemplateEngine) (getServletContext().getAttribute("templateEngine"));
@@ -52,6 +54,7 @@ public class RegistrationServlet extends AuthBaseServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        log.info("Executing the doPost() method in the RegistrationServlet class");
         String login = req.getParameter("login").strip();
         String password = req.getParameter("password").strip();
 

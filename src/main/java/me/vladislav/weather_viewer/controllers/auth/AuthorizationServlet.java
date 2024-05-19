@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import me.vladislav.weather_viewer.dao.SessionDAO;
 import me.vladislav.weather_viewer.dao.UserDAO;
 import me.vladislav.weather_viewer.exceptions.IncorrectPasswordException;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+@Slf4j
 @WebServlet(name = "AuthorizationServlet", value = "/authorization")
 public class AuthorizationServlet extends AuthBaseServlet {
     private UserDAO userDAO;
@@ -31,6 +33,7 @@ public class AuthorizationServlet extends AuthBaseServlet {
 
     @Override
     public void init() throws ServletException {
+        log.info("Executing the init() method in the AuthorizationServlet class");
         super.init();
         ServletContext servletContext = getServletContext();
         userDAO = (UserDAO) servletContext.getAttribute("userDAO");
@@ -39,6 +42,7 @@ public class AuthorizationServlet extends AuthBaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        log.info("Executing the doGet() method in the AuthorizationServlet class");
         WebContext webContext = ThymeleafUtils.getWebContext(req, resp, getServletContext());
 
         TemplateEngine templateEngine = (TemplateEngine) (getServletContext().getAttribute("templateEngine"));
@@ -50,6 +54,7 @@ public class AuthorizationServlet extends AuthBaseServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        log.info("Executing the doPost() method in the AuthorizationServlet class");
         String login = req.getParameter("login").strip();
         String password = req.getParameter("password").strip();
 

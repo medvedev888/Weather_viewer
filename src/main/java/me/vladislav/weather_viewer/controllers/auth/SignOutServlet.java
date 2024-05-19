@@ -24,6 +24,7 @@ public class SignOutServlet extends BaseServlet {
 
     @Override
     public void init() throws ServletException {
+        log.info("Executing the init() method in the SignOutServlet class");
         super.init();
         ServletContext servletContext = getServletContext();
         sessionDAO = (SessionDAO) servletContext.getAttribute("sessionDAO");
@@ -31,6 +32,7 @@ public class SignOutServlet extends BaseServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        log.info("Executing the doPost() method in the SignOutServlet class");
         Cookie[] cookies = req.getCookies();
         Cookie cookie = CookieUtils.findCookie(cookies, "sessionId").orElseThrow(() -> new CookieNotFoundException("Cookie not found"));
 

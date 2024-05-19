@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import me.vladislav.weather_viewer.dao.LocationDAO;
 import me.vladislav.weather_viewer.dao.SessionDAO;
 import me.vladislav.weather_viewer.dto.WeatherDTO;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @WebServlet(name = "HomeServlet", value = "/")
 public class HomeServlet extends BaseServlet {
     private SessionDAO sessionDAO;
@@ -33,6 +35,7 @@ public class HomeServlet extends BaseServlet {
 
     @Override
     public void init() throws ServletException {
+        log.info("Executing the init() method in the HomeServlet class");
         super.init();
         ServletContext servletContext = getServletContext();
         sessionDAO = (SessionDAO) servletContext.getAttribute("sessionDAO");
@@ -42,6 +45,7 @@ public class HomeServlet extends BaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        log.info("Executing the doGet() method in the HomeServlet class");
         WebContext webContext = ThymeleafUtils.getWebContext(req, resp, getServletContext());
         TemplateEngine templateEngine = (TemplateEngine) (getServletContext().getAttribute("templateEngine"));
 
@@ -76,6 +80,7 @@ public class HomeServlet extends BaseServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        log.info("Executing the doPost() method in the HomeServlet class");
         String locationName = req.getParameter("locationName").strip();
 
         Cookie[] cookies = req.getCookies();
@@ -93,6 +98,7 @@ public class HomeServlet extends BaseServlet {
         // cannot be null
         Location location = locationDAO.getByName(locationName, user).get();
 
+        log.info("Deleting location");
         locationDAO.delete(location);
 
         resp.sendRedirect(req.getRequestURI());

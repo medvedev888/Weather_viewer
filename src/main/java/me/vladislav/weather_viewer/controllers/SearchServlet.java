@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import me.vladislav.weather_viewer.dao.LocationDAO;
 import me.vladislav.weather_viewer.dao.SessionDAO;
 import me.vladislav.weather_viewer.dto.LocationDTO;
@@ -29,6 +30,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
+@Slf4j
 @WebServlet(name = "SearchServlet", value = "/search")
 public class SearchServlet extends BaseServlet {
     private SessionDAO sessionDAO;
@@ -37,6 +39,7 @@ public class SearchServlet extends BaseServlet {
 
     @Override
     public void init() throws ServletException {
+        log.info("Executing the init() method in the SearchServlet class");
         super.init();
         ServletContext servletContext = getServletContext();
         sessionDAO = (SessionDAO) servletContext.getAttribute("sessionDAO");
@@ -46,6 +49,7 @@ public class SearchServlet extends BaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        log.info("Executing the doGet() method in the SearchServlet class");
         WebContext webContext = ThymeleafUtils.getWebContext(req, resp, getServletContext());
         TemplateEngine templateEngine = (TemplateEngine) (getServletContext().getAttribute("templateEngine"));
 
@@ -83,6 +87,7 @@ public class SearchServlet extends BaseServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        log.info("Executing the doPost() method in the SearchServlet class");
         String locationName = req.getParameter("locationName").strip();
         String latitudeString = req.getParameter("latitude").strip();
         String longitudeString = req.getParameter("longitude").strip();
